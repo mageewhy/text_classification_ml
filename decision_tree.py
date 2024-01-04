@@ -10,20 +10,18 @@ from sklearn.model_selection import train_test_split
 from sklearn.tree import plot_tree
 from sklearn.metrics import classification_report
 
-# Import Webscraping
-import webscraping as ws
-
 # Disabling warnings:
 import warnings 
 warnings.filterwarnings('ignore')
 
-# Load data
+# Load train data
 data_path = os.path.join(os.path.dirname(__file__), 'training_dataset/newsCorpora.csv')
 col_names = ["ID", "TITLE", "URL", "PUBLISHER", "CATEGORY", "STORY", "HOSTNAME", "TIMESTAMP"]
 dataset = pd.read_csv(data_path, delimiter='\t', encoding='utf-8', names=col_names)
 
-# Prepare data for training
+# Prepare data for training ONLY using Title and Category
 training_dataset = dataset[['TITLE', 'CATEGORY']]
+training_dataset.to_csv('training_dataset/training_data.csv', index=False)
 
 X = training_dataset["TITLE"]
 Y = training_dataset["CATEGORY"]
@@ -31,10 +29,18 @@ Y = training_dataset["CATEGORY"]
 x_train = X
 y_train = Y
 
-# Test Data set from Webscraping
-test_dataset = ws.headlines_with_categories
+# Prepare test data
+test_data_path = os.path.join(os.path.dirname(__file__), 'webscrape_data/all_news.csv')
+testing_dataset = pd.read_csv(test_data_path, encoding='utf-8', names=["TITLE", "CATEGORY"])
 
+# Filter out rows where the category is 'Category'
+testing_dataset = testing_dataset[testing_dataset['CATEGORY'] != 'CATEGORY']
 
+x_test = testing_dataset["TITLE"]
+y_test = testing_dataset["CATEGORY"]
+
+# print("Unique categories in training set:", set(y_train))
+# print("Unique categories in test set:", set(y_test))
 
 # Encode the target labels
 le = LabelEncoder()
@@ -44,7 +50,7 @@ y_test_encoded = le.transform(y_test)
 # TF-IDF vectorization for text data
 tfidf = TfidfVectorizer()   
 x_train_tfidf = tfidf.fit_transform(x_train)
-x_test_tfidf = tfidf.transform(test_dataset)
+x_test_tfidf = tfidf.transform(x_test)
 
 # Train model using decision tree on the TF-IDF transformed data
 DTclf = DecisionTreeClassifier(max_depth=15) 
@@ -56,8 +62,6 @@ y_pred = DTclf.predict(x_test_tfidf)
 # Model Evaluation
 print("\n\n")
 print(classification_report(y_test_encoded, y_pred))
-
-
 
 
 

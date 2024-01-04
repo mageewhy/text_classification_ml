@@ -25,7 +25,19 @@ training_dataset = dataset[['TITLE', 'CATEGORY']]
 
 X = training_dataset["TITLE"]
 Y = training_dataset["CATEGORY"]
-x_train, x_test, y_train, y_test = train_test_split(X, Y, test_size=0.3, random_state=42)
+# x_train, x_test, y_train, y_test = train_test_split(X, Y, test_size=0.3, random_state=42)
+x_train = X
+y_train = Y
+
+# Prepare test data
+test_data_path = os.path.join(os.path.dirname(__file__), 'webscrape_data/all_news.csv')
+testing_dataset = pd.read_csv(test_data_path, encoding='utf-8', names=["TITLE", "CATEGORY"])
+
+# Filter out rows where the category is 'Category'
+testing_dataset = testing_dataset[testing_dataset['CATEGORY'] != 'CATEGORY']
+
+x_test = testing_dataset["TITLE"]
+y_test = testing_dataset["CATEGORY"]
 
 # Encode the target labels
 le = LabelEncoder()
@@ -40,9 +52,9 @@ x_test_tfidf = tfidf.transform(x_test)
 # Train model using Gaussian Naive Bayes on the TF-IDF transformed data
 MLPclf = MLPClassifier(
     hidden_layer_sizes=(10, 10),
-    max_iter=100,
+    max_iter=150,
     solver='adam',
-    learning_rate_init=0.2)
+    learning_rate_init=0.1)
 MLPclf = MLPclf.fit(x_train_tfidf, y_train_encoded)
 
 # Make predictions on the test set
