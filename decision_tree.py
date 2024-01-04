@@ -10,6 +10,9 @@ from sklearn.model_selection import train_test_split
 from sklearn.tree import plot_tree
 from sklearn.metrics import classification_report
 
+# Import Webscraping
+import webscraping as ws
+
 # Disabling warnings:
 import warnings 
 warnings.filterwarnings('ignore')
@@ -24,7 +27,14 @@ training_dataset = dataset[['TITLE', 'CATEGORY']]
 
 X = training_dataset["TITLE"]
 Y = training_dataset["CATEGORY"]
-x_train, x_test, y_train, y_test = train_test_split(X, Y, test_size=0.3, random_state=42)
+# x_train, x_test, y_train, y_test = train_test_split(X, Y, test_size=0.3, random_state=42)
+x_train = X
+y_train = Y
+
+# Test Data set from Webscraping
+test_dataset = ws.headlines_with_categories
+
+
 
 # Encode the target labels
 le = LabelEncoder()
@@ -34,7 +44,7 @@ y_test_encoded = le.transform(y_test)
 # TF-IDF vectorization for text data
 tfidf = TfidfVectorizer()   
 x_train_tfidf = tfidf.fit_transform(x_train)
-x_test_tfidf = tfidf.transform(x_test)
+x_test_tfidf = tfidf.transform(test_dataset)
 
 # Train model using decision tree on the TF-IDF transformed data
 DTclf = DecisionTreeClassifier(max_depth=15) 
@@ -44,7 +54,12 @@ DTclf = DTclf.fit(x_train_tfidf, y_train_encoded)
 y_pred = DTclf.predict(x_test_tfidf)
 
 # Model Evaluation
+print("\n\n")
 print(classification_report(y_test_encoded, y_pred))
+
+
+
+
 
 # Scatterplot Visualization
 
