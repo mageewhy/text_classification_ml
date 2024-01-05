@@ -11,3 +11,4 @@ venv.bak/
 .training_dataset/
 training_dataset/
 .webscrape_data/all_news.csv
+webscrape_data/all_news.csv
