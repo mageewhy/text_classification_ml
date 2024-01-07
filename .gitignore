@@ -8,7 +8,7 @@ env.bak/
 venv.bak/
 
 # folder
-.training_dataset/newsCorpora.csv
-training_dataset/newsCorpora.csv
-.webscrape_data/
-webscrape_data/
+.training_dataset/
+training_dataset/
+.webscrape_data/all_news.csv
+webscrape_data/all_news.csv

@@ -48,10 +48,11 @@ x_test_tfidf = tfidf.transform(x_test)
 
 # Train model using Gaussian Naive Bayes on the TF-IDF transformed data
 MLPclf = MLPClassifier(
-    hidden_layer_sizes=(10, 10),
-    max_iter=150,
+    hidden_layer_sizes=(10, 10, 10, 10, 10),
+    max_iter=50,
     solver='adam',
-    learning_rate_init=0.1)
+    learning_rate_init=0.2)
+
 MLPclf = MLPclf.fit(x_train_tfidf, y_train_encoded)
 
 # Make predictions on the test set

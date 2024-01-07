@@ -49,14 +49,14 @@ x_train_tfidf = tfidf.fit_transform(x_train)
 x_test_tfidf = tfidf.transform(x_test)
 
 # Train model using decision tree on the TF-IDF transformed data
-DTclf = DecisionTreeClassifier(max_depth=15) 
+DTclf = DecisionTreeClassifier(max_depth=25) 
 DTclf = DTclf.fit(x_train_tfidf, y_train_encoded)
 
 # Make predictions on the test set
 y_pred = DTclf.predict(x_test_tfidf)
 
 # Model Evaluation
-print("\n\n")
+print(f"Max Depth:{DTclf.get_depth}")
 print(classification_report(y_test_encoded, y_pred))
 
 
