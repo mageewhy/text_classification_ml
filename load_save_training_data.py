@@ -1,14 +1,5 @@
 import pandas as pd
-import seaborn as sns
 import os
-import matplotlib.pyplot as plt
-from sklearn.tree import DecisionTreeClassifier
-from sklearn.feature_extraction.text import TfidfVectorizer  
-from sklearn.decomposition import TruncatedSVD
-from sklearn.preprocessing import LabelEncoder
-from sklearn.model_selection import train_test_split
-from sklearn.tree import plot_tree
-from sklearn.metrics import classification_report
 
 # Disabling warnings:
 import warnings 
