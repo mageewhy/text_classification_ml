@@ -1,8 +1,6 @@
 import pandas as pd
 import seaborn as sns
 import os
-import urls_list
-import webscraping as ws
 import matplotlib.pyplot as plt
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.feature_extraction.text import TfidfVectorizer  
@@ -28,13 +26,13 @@ x_train = X
 y_train = Y
 
 # Prepare test data
-test_data_path = os.path.join(os.path.dirname(__file__), 'webscrape_data/all_news.csv')
+test_data_path = os.path.join(os.path.dirname(__file__), 'webscrape_data/cleaned_test_dataset.csv')
 testing_dataset = pd.read_csv(test_data_path, encoding='utf-8', names=["TITLE", "CATEGORY"])
 
 # Filter out rows where the category is 'Category'
 testing_dataset = testing_dataset[testing_dataset['CATEGORY'] != 'CATEGORY']
 
-x_test = testing_dataset["TITLE"]
+x_test = testing_dataset["TITLE"].fillna('')
 y_test = testing_dataset["CATEGORY"]
 
 # Encode the target labels

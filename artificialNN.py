@@ -3,12 +3,10 @@ import seaborn as sns
 import os
 import matplotlib.pyplot as plt
 from sklearn.neural_network import MLPClassifier
-from sklearn.neural_network import MLPRegressor
 from sklearn.feature_extraction.text import TfidfVectorizer  
 from sklearn.preprocessing import LabelEncoder
 from sklearn.decomposition import TruncatedSVD
 from sklearn.model_selection import train_test_split
-from sklearn.tree import plot_tree
 from sklearn.metrics import classification_report
 
 # Disabling warnings:
@@ -27,13 +25,13 @@ x_train = X
 y_train = Y
 
 # Prepare test data
-test_data_path = os.path.join(os.path.dirname(__file__), 'webscrape_data/all_news.csv')
+test_data_path = os.path.join(os.path.dirname(__file__), 'webscrape_data/cleaned_test_dataset.csv')
 testing_dataset = pd.read_csv(test_data_path, encoding='utf-8', names=["TITLE", "CATEGORY"])
 
 # Filter out rows where the category is 'Category'
 testing_dataset = testing_dataset[testing_dataset['CATEGORY'] != 'CATEGORY']
 
-x_test = testing_dataset["TITLE"]
+x_test = testing_dataset["TITLE"].fillna('')
 y_test = testing_dataset["CATEGORY"]
 
 # Encode the target labels

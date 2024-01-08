@@ -26,17 +26,14 @@ x_train = X
 y_train = Y
 
 # Prepare test data
-test_data_path = os.path.join(os.path.dirname(__file__), 'webscrape_data/all_news.csv')
+test_data_path = os.path.join(os.path.dirname(__file__), 'webscrape_data/cleaned_test_dataset.csv')
 testing_dataset = pd.read_csv(test_data_path, encoding='utf-8', names=["TITLE", "CATEGORY"])
 
 # Filter out rows where the category is 'Category'
 testing_dataset = testing_dataset[testing_dataset['CATEGORY'] != 'CATEGORY']
 
-x_test = testing_dataset["TITLE"]
+x_test = testing_dataset["TITLE"].fillna('')
 y_test = testing_dataset["CATEGORY"]
-
-# print("Unique categories in training set:", set(y_train))
-# print("Unique categories in test set:", set(y_test))
 
 # Encode the target labels
 le = LabelEncoder()
@@ -49,7 +46,7 @@ x_train_tfidf = tfidf.fit_transform(x_train)
 x_test_tfidf = tfidf.transform(x_test)
 
 # Train model using decision tree on the TF-IDF transformed data
-DTclf = DecisionTreeClassifier(max_depth=25) 
+DTclf = DecisionTreeClassifier(max_depth=15) 
 DTclf = DTclf.fit(x_train_tfidf, y_train_encoded)
 
 # Make predictions on the test set
