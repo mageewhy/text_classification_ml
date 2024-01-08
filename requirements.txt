@@ -6,7 +6,3 @@ python-dateutil
 scikit-learn
 seaborn
 selenium
-
-# for websraping:
-requests
-beautifulsoup4

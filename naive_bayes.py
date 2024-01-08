@@ -19,10 +19,10 @@ warnings.filterwarnings('ignore')
 # Load train data
 data_path = os.path.join(os.path.dirname(__file__), 'training_dataset/training_data.csv')
 col_names = ['TITLE', 'CATEGORY']
-training_dataset = pd.read_csv(data_path, encoding='utf-8', names=col_names)
+training_dataset_df = pd.read_csv(data_path, encoding='utf-8', names=col_names)
 
-X = training_dataset["TITLE"]
-Y = training_dataset["CATEGORY"]
+X = training_dataset_df["TITLE"]
+Y = training_dataset_df["CATEGORY"]
 # x_train, x_test, y_train, y_test = train_test_split(X, Y, test_size=0.3, random_state=42)
 x_train = X
 y_train = Y
