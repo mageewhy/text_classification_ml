@@ -26,12 +26,12 @@ from selenium.webdriver.chrome.options import Options
 # Set up Selenium WebDriver
 options = webdriver.ChromeOptions()
 options.add_experimental_option('excludeSwitches', ['enable-logging'])
-driver = webdriver.Chrome(options=options)
 
 # Set the News Category to Scrape
 news_q_category = ["Business", "Entertainment", "Technology", "Science", "Health"]
 
 def scrape_cnn_data():
+    driver = webdriver.Chrome(options=options)
     print('Start Scraping CNN')
     all_cnn_data = []
     total_pages = 15
@@ -69,9 +69,7 @@ def scrape_cnn_data():
                 category = 'b'
             elif category == 'entertainment':
                 category = 'e'
-            elif category == 'technology':
-                category = 't'
-            elif category == 'science':
+            elif category == 'technology' or 'science':
                 category = 't'
             elif category == 'health':
                 category = 'm'
@@ -105,6 +103,7 @@ def scrape_cnn_data():
     return save_to_csv(all_cnn_data, 'webscrape_data/CNN_data.csv')
     
 def scrape_bbc_data():
+    driver = webdriver.Chrome(options=options)
     print('Start Scraping BBC')
     total_pages = 30
     all_bbc_data = []
@@ -125,9 +124,7 @@ def scrape_bbc_data():
                 category = 'b'
             elif category == 'entertainment':
                 category = 'e'
-            elif category == 'technology':
-                category = 't'
-            elif category == 'science':
+            elif category == 'technology' or 'science':
                 category = 't'
             elif category == 'health':
                 category = 'm'
@@ -161,6 +158,7 @@ def scrape_bbc_data():
     return save_to_csv(all_bbc_data, 'webscrape_data/BBC_data.csv')
 
 def scrape_apnews_data():
+    driver = webdriver.Chrome(options=options)
     print('Start Scraping APNEWS')
     total_pages = 20
     all_apnews_data = []
@@ -182,9 +180,7 @@ def scrape_apnews_data():
                 category = 'b'
             elif category == 'entertainment':
                 category = 'e'
-            elif category == 'technology':
-                category = 't'
-            elif category == 'science':
+            elif category == 'technology' or 'science':
                 category = 't'
             elif category == 'health':
                 category = 'm'
@@ -210,6 +206,7 @@ def scrape_apnews_data():
 
    
 def scrape_abcnews_data():
+    driver = webdriver.Chrome(options=options)
     print('Start Scraping ABCNEWS')
     total_pages = 100
     all_abcnews_data = []
@@ -247,9 +244,7 @@ def scrape_abcnews_data():
                 category = 'b'
             elif category == 'entertainment':
                 category = 'e'
-            elif category == 'technology':
-                category = 't'
-            elif category == 'science':
+            elif category == 'technology' or 'science':
                 category = 't'
             elif category == 'health':
                 category = 'm'
@@ -366,13 +361,13 @@ def combined_csv_data():
     return combined_df.to_csv(os.path.join(folder_path, 'combined_test_dataset.csv'), index=False)
 
 # scrape_cnn_data()
-
+# time.sleep(20)
 # scrape_bbc_data()
-
+# time.sleep(20)
 # scrape_apnews_data()
-
-# scrape_abcnews_data()
-    
+# time.sleep(20)
+scrape_abcnews_data()
+time.sleep(20)
 combined_csv_data()
 
 
