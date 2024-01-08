@@ -358,14 +358,14 @@ def combined_csv_data():
     combined_df = pd.concat(df_list, ignore_index=True)
 
     # Save the final result to a new CSV file
-    return combined_df.to_csv(os.path.join(folder_path, 'combined_test_dataset.csv'), index=False)
+    return combined_df.to_csv(os.path.join(folder_path, 'webscrape_data/combined_test_dataset.csv'), index=False)
 
-# scrape_cnn_data()
-# time.sleep(20)
-# scrape_bbc_data()
-# time.sleep(20)
-# scrape_apnews_data()
-# time.sleep(20)
+scrape_cnn_data()
+time.sleep(20)
+scrape_bbc_data()
+time.sleep(20)
+scrape_apnews_data()
+time.sleep(20)
 scrape_abcnews_data()
 time.sleep(20)
 combined_csv_data()
