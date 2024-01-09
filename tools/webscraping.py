@@ -69,9 +69,7 @@ def scrape_cnn_data():
                 category = 'b'
             elif category == 'entertainment':
                 category = 'e'
-            elif category == 'technology':
-                category = 't'
-            elif category == 'science':
+            elif category == 'technology' or 'science':
                 category = 't'
             elif category == 'health':
                 category = 'm'
@@ -125,9 +123,7 @@ def scrape_bbc_data():
                 category = 'b'
             elif category == 'entertainment':
                 category = 'e'
-            elif category == 'technology':
-                category = 't'
-            elif category == 'science':
+            elif category == 'technology' or 'science':
                 category = 't'
             elif category == 'health':
                 category = 'm'
@@ -182,9 +178,7 @@ def scrape_apnews_data():
                 category = 'b'
             elif category == 'entertainment':
                 category = 'e'
-            elif category == 'technology':
-                category = 't'
-            elif category == 'science':
+            elif category == 'technology' or 'science':
                 category = 't'
             elif category == 'health':
                 category = 'm'
@@ -247,9 +241,7 @@ def scrape_abcnews_data():
                 category = 'b'
             elif category == 'entertainment':
                 category = 'e'
-            elif category == 'technology':
-                category = 't'
-            elif category == 'science':
+            elif category == 'technology' or 'science':
                 category = 't'
             elif category == 'health':
                 category = 'm'
@@ -365,7 +357,7 @@ def combined_csv_data():
     # Save the final result to a new CSV file
     return combined_df.to_csv(os.path.join(folder_path, 'combined_test_dataset.csv'), index=False)
 
-# scrape_cnn_data()
+scrape_cnn_data()
 
 # scrape_bbc_data()
 
@@ -373,6 +365,6 @@ def combined_csv_data():
 
 # scrape_abcnews_data()
     
-combined_csv_data()
+# combined_csv_data()
 
 
