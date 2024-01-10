@@ -2,6 +2,7 @@ import csv
 import time
 import os
 import pandas as pd
+import numpy as np
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -10,18 +11,6 @@ from selenium.common.exceptions import StaleElementReferenceException
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.options import Options
 
-# # Smartproxy credentials
-# username = 'spy8rw5esk'
-# password = 'r8kRzqlZBr33H1fncy'
-# proxy_url = 'https://spy8rw5esk:r8kRzqlZBr33H1fncy@gate.smartproxy.com:7000'
-
-# # Proxy authentication for Smartproxy
-# chrome_options = Options()
-# chrome_options.add_argument(f'--proxy-server={proxy_url}')
-# chrome_options.add_argument('--headless')  # Optional: Run Chrome in headless mode
-
-# # Initialize the webdriver with proxy settings
-# driver = webdriver.Chrome(options=chrome_options)
 
 # Set up Selenium WebDriver
 options = webdriver.ChromeOptions()
@@ -47,7 +36,6 @@ def scrape_cnn_data():
         for page in range(1, total_pages + 1):
             print(f"Scraping Page {page}")
             
-            # titles = driver.find_elements(By.XPATH, "//span[@class='container__headline-text']")
             titles = None
             
             # Retry loop to handle StaleElementReferenceException
@@ -100,7 +88,7 @@ def scrape_cnn_data():
             
     driver.close()
     print("Finished CNN")
-    return save_to_csv(all_cnn_data, 'webscrape_data/CNN_data.csv')
+    return save_to_csv(all_cnn_data, 'CNN_data.csv')
     
 def scrape_bbc_data():
     driver = webdriver.Chrome(options=options)
@@ -155,7 +143,7 @@ def scrape_bbc_data():
     
     driver.close()
     print("Finished BBC")
-    return save_to_csv(all_bbc_data, 'webscrape_data/BBC_data.csv')
+    return save_to_csv(all_bbc_data, 'BBC_data.csv')
 
 def scrape_apnews_data():
     driver = webdriver.Chrome(options=options)
@@ -202,7 +190,7 @@ def scrape_apnews_data():
     
     driver.close()
     print("Finished APNEWS")
-    return save_to_csv(all_apnews_data, 'webscrape_data/APNEWS_data.csv')
+    return save_to_csv(all_apnews_data, 'APNEWS_data.csv')
 
    
 def scrape_abcnews_data():
@@ -274,7 +262,7 @@ def scrape_abcnews_data():
     
     driver.close()
     print("Finished ABCNEWS")
-    return save_to_csv(all_abcnews_data, 'webscrape_data/ABCNEWS_data.csv')
+    return save_to_csv(all_abcnews_data, 'ABCNEWS_data.csv')
 
 def generate_search_url(news_source, query, page):
     base_url = ""
@@ -358,16 +346,35 @@ def combined_csv_data():
     combined_df = pd.concat(df_list, ignore_index=True)
 
     # Save the final result to a new CSV file
-    return combined_df.to_csv(os.path.join(folder_path, 'webscrape_data/combined_test_dataset.csv'), index=False)
+    return combined_df.to_csv(os.path.join(folder_path, 'combined_test_dataset.csv'), index=False)
+
+def clean_data():
+    data = pd.read_csv('combined_test_dataset.csv')
+
+    data['TITLE'] = data['TITLE'].apply(clean_text)
+
+    data = data.dropna(subset=['TITLE'])  # Drop rows with NaN values in 'TITLE' column
+
+    # Save the cleaned data back to a CSV file
+    return data.to_csv('test_dataset.csv', index=False)
+
+def clean_text(text):
+    if pd.isnull(text) or text == np.nan:  # Check for NaN values or string "NaN"
+        return ""  # Replace NaN with empty string
+    clean_text = text.encode('latin1', 'ignore').decode('utf-8', 'ignore')
+    return clean_text
+
 
 scrape_cnn_data()
-time.sleep(20)
+time.sleep(5)
 scrape_bbc_data()
-time.sleep(20)
+time.sleep(10)
 scrape_apnews_data()
-time.sleep(20)
+time.sleep(7)
 scrape_abcnews_data()
-time.sleep(20)
+time.sleep(5)
 combined_csv_data()
+time.sleep(5)
+clean_data()
 
 
